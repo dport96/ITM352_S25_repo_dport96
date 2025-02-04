@@ -1,0 +1,2 @@
+def midpoint():
+    print('test')
