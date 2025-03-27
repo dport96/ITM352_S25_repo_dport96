@@ -7,6 +7,7 @@ df = pd.read_json(url)
 # Print summary statistics
 print(df.describe())
 
+print(df)
 # Print the median for numerical columns
 print("\nMedian values:")
 print(df['fare'].median())
