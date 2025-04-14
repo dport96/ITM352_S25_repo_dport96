@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import *
 
 app = Flask(__name__)
 
@@ -8,15 +8,14 @@ USERS = {
     "kazman": "kazman123"
 }
 
+
 @app.route('/')
 def home():
-    return render_template('index.html')
+    return send_from_directory(app.static_folder, 'index.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    if request.method == 'GET':
-        return render_template('login.html')
-    elif request.method == 'POST':
+    if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
         if USERS.get(username) == password:
