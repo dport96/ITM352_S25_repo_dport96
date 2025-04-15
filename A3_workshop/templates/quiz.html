@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Quiz Game</title>
+</head>
+<body>
+    <h2>Question {{ index }} of {{ total }}</h2>
+    <form method="post">
+        <p>{{ question.question }}</p>
+        {% for letter, option in options %}
+            <label>
+                <input type="radio" name="answer" value="{{ letter }}" required>
+                {{ letter }}) {{ option }}
+            </label><br>
+        {% endfor %}
+        <br>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
