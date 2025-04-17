@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, session, url_for
+import random
 
 app = Flask(__name__)
 app.secret_key = 'your-secret-key'
@@ -14,6 +15,11 @@ questions = [
         "question": "Which planet is known as the Red Planet?",
         "options": ["Venus", "Mars", "Jupiter", "Saturn"],
         "correct": "b"
+    },
+        {
+        "question": "xxx?",
+        "options": ["yyy", "zzz", "qqq", "Satufffrn"],
+        "correct": "a"
     }
 ]
 
@@ -21,6 +27,7 @@ questions = [
 def index():
     session['score'] = 0
     session['question_index'] = 0
+    session['questions_index'] =  random.sample(range(len(questions)), len(questions))
     return redirect(url_for('quiz'))
 
 @app.route('/quiz', methods=['GET', 'POST'])
@@ -34,11 +41,12 @@ def quiz():
         selected = request.form.get('answer')
         correct = questions[index]['correct']
         if selected == correct:
-            session['score'] += 1
+            session['score'] += 1           
         session['question_index'] += 1
-        return redirect(url_for('quiz'))
+        return render_template('feedback.html', feedback = f"That was {  "correct" if selected == correct else "incorrect" }! Your score is {session['score']} out of {index + 1} questions")
 
-    current_question = questions[index]
+    index_to_ask = session['questions_index'][index]
+    current_question = questions[index_to_ask]
     letters = list('abcd')
     zipped_options = zip(letters, current_question['options'])
     return render_template('quiz.html', question=current_question, index=index + 1, total=len(questions), options = zipped_options)
